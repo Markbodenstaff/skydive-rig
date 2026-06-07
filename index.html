@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🪂 Javelin Parachutes — Tweedehands Overzicht</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f0f2f5; color: #1c1e21; min-height: 100vh; }
+
+  header { background: linear-gradient(135deg, #1877f2, #0d5ed9); color: white; padding: 20px 24px 16px; }
+  header h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  header p { font-size: 13px; opacity: 0.85; }
+  .header-meta { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 8px; }
+  .header-right { text-align: right; font-size: 12px; opacity: 0.8; }
+
+  details.search-info { background: #f0f4ff; border-bottom: 1px solid #d0d9f7; font-size: 13px; color: #3a4a7a; }
+  details.search-info summary { padding: 10px 24px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; font-weight: 600; user-select: none; }
+  details.search-info summary::after { content: '▼'; font-size: 10px; margin-left: auto; transition: transform 0.2s; }
+  details.search-info[open] summary::after { transform: rotate(180deg); }
+  details.search-info .terms-grid { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 24px 12px; }
+  details.search-info .term { background: white; border: 1px solid #c0cef7; border-radius: 20px; padding: 3px 12px; font-size: 12px; color: #1a2e7a; font-weight: 500; }
+
+  .controls { background: white; padding: 14px 24px; border-bottom: 1px solid #e4e6ea; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; position: sticky; top: 0; z-index: 10; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+  .controls input[type=text] { padding: 8px 12px; border: 1px solid #d0d7de; border-radius: 8px; font-size: 14px; flex: 1; min-width: 180px; outline: none; transition: border 0.15s; }
+  .controls input[type=text]:focus { border-color: #1877f2; }
+  .controls select { padding: 8px 10px; border: 1px solid #d0d7de; border-radius: 8px; font-size: 13px; background: white; cursor: pointer; }
+  .controls label { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; cursor: pointer; white-space: nowrap; line-height: 1; }
+  .controls input[type=checkbox] { width: 15px; height: 15px; margin: 0; flex-shrink: 0; cursor: pointer; accent-color: #1877f2; }
+
+  .stats { padding: 10px 24px; background: white; border-bottom: 1px solid #e4e6ea; font-size: 13px; color: #65676b; display: flex; gap: 16px; flex-wrap: wrap; }
+  .stats span { display: flex; align-items: center; gap: 4px; }
+  .stat-num { font-weight: 700; color: #1c1e21; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 14px; padding: 18px 24px; }
+
+  .card { background: white; border-radius: 10px; border: 1px solid #e4e6ea; overflow: hidden; transition: box-shadow 0.18s, transform 0.18s; }
+  .card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.12); transform: translateY(-1px); }
+  .card.sold { opacity: 0.55; }
+  .card.highlight { border-color: #1877f2; border-width: 2px; }
+  .card.is-new { border-color: #00a854; border-width: 2px; }
+
+  .card-img { width: 100%; height: 180px; object-fit: cover; display: block; }
+.card-top { padding: 14px 16px 10px; border-bottom: 1px solid #f0f2f5; }
+  .card-title { font-size: 14px; font-weight: 600; line-height: 1.4; margin-bottom: 8px; color: #050505; }
+  .badges { display: flex; gap: 5px; flex-wrap: wrap; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 20px; }
+  .b-new    { background: #e6f9ef; color: #00a854; }
+  .b-sold   { background: #ffebee; color: #c62828; }
+  .b-d18    { background: #fff3e0; color: #e65100; }
+  .b-nl     { background: #e8f5e9; color: #2e7d32; }
+  .b-search { background: #e3f2fd; color: #1565c0; }
+
+  .card-body { padding: 12px 16px; }
+  .price { font-size: 20px; font-weight: 800; color: #050505; margin-bottom: 8px; }
+  .meta-row { font-size: 13px; color: #65676b; margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
+  .meta-icon { flex-shrink: 0; }
+  .desc { font-size: 12px; color: #65676b; line-height: 1.5; margin-top: 8px; border-top: 1px solid #f0f2f5; padding-top: 8px; }
+
+  .card-footer { padding: 10px 16px; background: #f7f8fa; border-top: 1px solid #f0f2f5; display: flex; justify-content: space-between; align-items: center; }
+  .card-footer span { font-size: 11px; color: #90949c; }
+  .fb-link { display: inline-flex; align-items: center; gap: 5px; background: #1877f2; color: white; text-decoration: none; font-size: 12px; font-weight: 600; padding: 5px 12px; border-radius: 6px; transition: background 0.15s; }
+  .fb-link:hover { background: #166fe5; }
+
+  .no-results { grid-column: 1/-1; text-align: center; padding: 60px 24px; color: #90949c; font-size: 15px; }
+
+  @media (max-width: 640px) {
+    .grid { grid-template-columns: 1fr; padding: 12px; }
+    header h1 { font-size: 18px; }
+    .controls { padding: 10px 12px; }
+    .stats { padding: 8px 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-meta">
+    <div>
+      <h1>🪂 Javelin Parachutes — Tweedehands Overzicht</h1>
+      <p>Automatisch verzameld via Facebook-groepen · Dagelijks bijgewerkt</p>
+    </div>
+    <div class="header-right">
+      <div id="lastUpdated"></div>
+      <div id="totalCount"></div>
+    </div>
+  </div>
+</header>
+
+<details class="search-info">
+  <summary>🔍 Actieve zoekopdrachten</summary>
+  <div class="terms-grid" id="termsList"></div>
+</details>
+
+<div class="controls">
+  <input type="text" id="search" placeholder="🔍  Zoek op naam, maat, locatie..." oninput="render()">
+  <select id="filterStatus" onchange="render()">
+    <option value="all">Alle advertenties</option>
+    <option value="active">Alleen beschikbaar</option>
+    <option value="sold">Alleen verkocht</option>
+    <option value="new">Alleen nieuw</option>
+  </select>
+  <select id="sortBy" onchange="render()">
+    <option value="date">Nieuwste eerst</option>
+    <option value="price-asc">Prijs ↑</option>
+    <option value="price-desc">Prijs ↓</option>
+  </select>
+  <label><input type="checkbox" id="onlyD18" onchange="render()"> Alleen D/C-18</label>
+  <label><input type="checkbox" id="onlyNL" onchange="render()"> Alleen NL</label>
+  <label><input type="checkbox" id="hideSold" onchange="render()"> Verberg verkocht</label>
+</div>
+
+<div class="stats" id="stats"></div>
+<div class="grid" id="grid"></div>
+
+<script>
+const DATA = {"lastUpdated":"2026-06-07T09:00:00.000Z","results":[{"id":"cody-golem-j1ks-c18","title":"Complete Rig minus AAD. 2013 Javelin J1KS C-18","price":"US$ 5.000","description":"Complete Rig minus AAD. 2013 Javelin J1KS C-18. Group: SKYDIVE Buy and Sell.","poster":"Cody Golem","location":"Central Elgin, ON","url":"https://www.facebook.com/search/top?q=javelin%20d18","searchTerm":"javelin d18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"joran-dekker-j5k-d18","title":"Javelin J5K maat D18 te koop - Tiel","price":"US$ 5.850","description":"For sale: Javelin J5K -made in 2023 -harnes size: D18 (1.85m and 90kg) -250 jumps total. Group: Skydiving gear - Europe.","poster":"Joran Dekker","location":"Tiel, GE (Nederland)","url":"https://www.facebook.com/search/top?q=javelin%20d18","searchTerm":"javelin d18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"robert-frost-rsk1-c18-verkocht","title":"(VERKOCHT) Javelin odyssey RSK-1 C-18 - Bury Lancashire","price":"£ 2.400","description":"Javelin odyssey RSK-1 C-18 with lots of extras, Skyhook, long chest strap, spacer foam backpad. Dom feb 2015 approx 600 jumps. Smart 120 reserve. Vigil Quattro AAD.","poster":"Robert Frost","location":"Bury, Lancashire","url":"https://www.facebook.com/search/top?q=javelin%20d18","searchTerm":"javelin d18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"rachel-hinde-harris-javelin2-c18","title":"Javelin 2 complete skydiving rig - C-18 - Bracknell","price":"£ 5.150","description":"Javelin 2 complete skydiving rig. Made to fit me - 5'10. The harness is a C-18 - average-build person roughly 5'8\" to 6'2\" tall with a 31\" to 35\" waist. Pristine condition. Black and blue. Total 180 jumps. DOM 2012.","poster":"Rachel Hinde Harris","location":"Bracknell, Berkshire","url":"https://www.facebook.com/search/top?q=javelin%20d18","searchTerm":"javelin d18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"silvia-fontana-odyssey-c18-verkocht","title":"(VERKOCHT) RIG JAVELIN ODYSSEY TJNK.5 - C-18 - Modena","price":"US$ 1.950","description":"Only Rig JAVELIN ODYSSEY DOM 10/2015 C-18 With skyhook and semistowles pod.","poster":"Silvia Fontana","location":"Modena, Italia","url":"https://www.facebook.com/search/top?q=javelin%20d18","searchTerm":"javelin d18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"roman-stengl-j4k-2024-verkocht","title":"(VERKOCHT) Javelin Odyssey J4K DOM 2024 - Dobříš","price":"CZK 3.200","description":"For sale: Javelin Odyssey (only rig). DOM 2024.","poster":"Roman Štengl","location":"Dobříš, Příbram","url":"https://www.facebook.com/search/top?q=javelin%20d18","searchTerm":"javelin d18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"kurtis-gagnon-j3k-d18","title":"Javelin J3K harness size D-18 - Clarksville TN","price":"US$ 3.500","description":"Javelin J3K, DOM 5/16 (harness size D-18) - PD Optimum 176 DOM 1/16. Has Spynpad, articulated harness, semi stow-less deployment bag, free fly pud, skyhook.","poster":"Kurtis Gagnon","location":"Clarksville, TN","url":"https://www.facebook.com/search/top?q=javelin%20d-18","searchTerm":"javelin d-18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"nick-hynes-rsk5-d18","title":"Complete Rig - Javelin Odyssey RSK-5 - Preston","price":"US$ 2.850","description":"Selling my complete rig, ready to jump and in date. Next reserve repack due 07 October 2026. Container: Javelin Odyssey RSK-5. Main: Icarus Leia 79. Reserve: PD Reserve 106.","poster":"Nick Hynes","location":"Preston, Lancashire","url":"https://www.facebook.com/search/top?q=javelin%20d-18","searchTerm":"javelin d-18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"danny-ball-d18-rsk5-verkocht","title":"(VERKOCHT) Complete Javelin D-18 RSK5 - £2.200 - Cheltenham","price":"£ 2.200","description":"Javelin Harness D-18 (RSK 5) - well-looked-after, great-looking rig ready to go. Around 6ft and it fits me perfectly.","poster":"Danny Ball","location":"Cheltenham, Gloucestershire","url":"https://www.facebook.com/search/top?q=javelin%20d-18","searchTerm":"javelin d-18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"mee-loft-rsk-d18-brisbane","title":"Javelin Odyssey RSK / D18 (as new) - Brisbane QLD","price":"AU$ 4.975","description":"As-new Sun Path Javelin Odyssey RSK / D18. ESC ID 1469. Barely a year old, replaced by owner after fitment mismatch. Stealth black with crisp accent stitching.","poster":"Mee Loft","location":"Brisbane, QLD","url":"https://www.facebook.com/search/top?q=javelin%20d-18","searchTerm":"javelin d-18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"genifer-oliver-tjnk-c18-frisco","title":"Javelin Odyssey (TJNK) Container with C-18 Harness - Frisco TX","price":"US$ 3.250","description":"Javelin Odyssey (TJNK) Container with C-18 Harness. Flexible fit for 5'8\" - 6' tall and 180-200 lbs. Stored in climate controlled environment. Approximately 50-70 jumps, like new condition.","poster":"Genifer Oliver","location":"Frisco, TX","url":"https://www.facebook.com/search/top?q=javelin%20d-18","searchTerm":"javelin d-18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"cliff-booth-j3k-c18-verkocht","title":"(VERKOCHT) Javelin J3K Container DOM 12/2016 MLW C-18 - Alexandria VA","price":"US$ 2.000","description":"$2000 OBO Javelin J3K container DOM 12/2016 MLW C-18.","poster":"Cliff Booth","location":"Alexandria, VA","url":"https://www.facebook.com/search/top?q=javelin%20d-18","searchTerm":"javelin d-18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"kevin-carew-j1kl-c18-southport","title":"Javelin J1KL C18 + Smart 150 (No main, no AAD) - Southport","price":"£ 950","description":"Container: Sunpath Javelin Odyssey J1KL, size C18, DOM 03/2005, ~600 jumps. Fits me snug at 5'8 average build (sized for 5'10 slim build).","poster":"Kevin Carew","location":"Southport, Merseyside","url":"https://www.facebook.com/search/top?q=javelin%20c18","searchTerm":"javelin c18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"mirko-barjaktarevic-rsk1-c18","title":"Javelin RSK-1 C18 + Sabre 3 107 + Tempo + Vigil - Caledonia WI","price":"US$ 7.000","description":"Container: Javelin RSK-1, DOM 05/2022, MLW C18, fits person 5'10''-6'1\", 175-190lbs. Main: Sabre 3 107, DOM 09/2022 60 total jumps.","poster":"Mirko Barjaktarevic","location":"Caledonia, WI","url":"https://www.facebook.com/search/top?q=javelin%20c18","searchTerm":"javelin c18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"andy-gr-rsk-c18-castello","title":"Javelin Odyssey RSK C18 2019 - Castelló d'Empúries","price":"€ 2.300","description":"Javelin Odyssey (RSK C18) Year: 2019 Jumps: ~500. Main (ZP): up to 100 sqft.","poster":"Andy Gr","location":"Castelló d'Empúries, CT","url":"https://www.facebook.com/search/top?q=javelin%20c18","searchTerm":"javelin c18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"nick-larrabee-ojk-c18-plymouth","title":"Complete skydive rig minus AAD - Javelin OJK C18 - Plymouth MA","price":"US$ 3.000","description":"Container: SunPath Javelin OJK C18 - DOM 2005 with new BOC. Main: PD Storm 150 DOM 2010. Reserve: PDR 143 DOM 1998.","poster":"Nick Larrabee","location":"Plymouth, MA","url":"https://www.facebook.com/search/top?q=javelin%20c18","searchTerm":"javelin c18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"mohamed-ahmedi-nj-c18-verkocht","title":"(VERKOCHT) Javelin NJ C18 December 1996 - Manchester","price":"£ 200","description":"Sunpath products harness/container system. Model: javelin NJ. Harness size: C18. Date of manufacture: December 1996. Not freefly friendly.","poster":"Mohamed Ahmedi","location":"Manchester, Lancashire","url":"https://www.facebook.com/search/top?q=javelin%20c18","searchTerm":"javelin c18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"wido-langemheen-tjnk-c18-breda","title":"Javelin Odyssey TJNK C18 + JFX2-99 + Optimum 143 + Vigil 2 - Breda","price":"€ 7.200","description":"Complete rig in excellent condition. Sunpath Javelin Odyssey TJNK / C18 DOM March 2019. First owner on all components. Near new JFX2-99. Grass landings only.","poster":"Wido Langemheen","location":"Breda, NB (Nederland)","url":"https://www.facebook.com/search/top?q=javelin%20c18","searchTerm":"javelin c18","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"helen-williams-c17-rsk1-stalbans","title":"Javelin Odyssey C17 RSK1 + Optimum 126 - St Albans","price":"£ 3.500","description":"Javelin Odyssey C17, RSK1, DoM Jan 2020. Built for me, I'm 5'8\". Designed for a 120 main. All options, extra padding, full articulation, semi-stowless d-bag and skyhook. ~300 jumps.","poster":"Helen Williams","location":"St Albans, Hertfordshire","url":"https://www.facebook.com/search/top?q=javelin%20c17","searchTerm":"javelin c17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"brian-vacher-rsk1-c17-oxford","title":"Javelin Odyssey RSK1 C17 PD Factory Team 2009 PDR 113 - Oxford","price":"£ 1.600","description":"2009 javelin odyssey RSK1. C17. PD Factory Team. PD reserve 113. DOM pdr113 June 2005.","poster":"Brian Vacher","location":"Oxford, Oxfordshire","url":"https://www.facebook.com/search/top?q=javelin%20c17","searchTerm":"javelin c17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"miller-lambert-j1ks-c17-pensacola","title":"Complete Rig - Javelin J1KS C-17 + PDR 143 + Sabre 3 150 - Pensacola FL","price":"US$ 5.500","description":"Javelin J1KS - Yoke size C-17 - DOM 11/12. PDR 143 DOM 02/24 (no rides). Vigil Cuatro 02/19. Sabre 3 150 - roughly 100 jumps.","poster":"Miller Lambert","location":"Pensacola, FL","url":"https://www.facebook.com/search/top?q=javelin%20c17","searchTerm":"javelin c17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"mauro-vidal-nj-c17-trieste","title":"SUNPATH JAVELIN CONTAINER NJ C17 DOM 8/00 - Trieste","price":"€ 325","description":"Container Sunpath Javelin NJ C17 DOM 8/00. Holds 91 crossbraced - 135 LPV.","poster":"Mauro Vidal","location":"Trieste, Italia","url":"https://www.facebook.com/search/top?q=javelin%20c17","searchTerm":"javelin c17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"amanda-knapp-tjnk-c17-raleigh","title":"Javelin TJNK C-17 DOM 12-2021 + PDR 126 + Sabre3 135 + Cypres - Raleigh NC","price":"US$ 7.000","description":"Javelin TJNK C-17, DOM 12-2021. Between 400-500 jumps. Black hardware, HIP articulation. Reserve: PDR 126 DOM 8-2021, no rides.","poster":"Amanda Knapp","location":"Raleigh, NC","url":"https://www.facebook.com/search/top?q=javelin%20c17","searchTerm":"javelin c17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"simone-koopmans-rsk-c17-leeuwarden","title":"Javelin RSK C-17 DOM 05-2019 - Leeuwarden (NL)","price":"€ 2.750","description":"Javelin RSK C-17 (DOM: 05-2019). Great rig from first owner, in pristine condition.","poster":"Simone Koopmans","location":"Leeuwarden, FR (Nederland)","url":"https://www.facebook.com/search/top?q=javelin%20c-17","searchTerm":"javelin c-17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"silvia-fontana-njk-c17-modena","title":"FULL RIG ODYSSEY JAVELIN NJK C-17 DOM 12/2009 - Modena","price":"US$ 3.900","description":"Rig ODYSSEY JAVELIN DOM 12/2009 Model: NJK Size: C-17.","poster":"Silvia Fontana","location":"Modena, Italia","url":"https://www.facebook.com/search/top?q=javelin%20c-17","searchTerm":"javelin c-17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"andrew-butcher-j5-ashland","title":"Javelin J5 For Sale Container Only! - Ashland OH","price":"US$ 500","description":"Selling an older Javelin J5 in very good condition!","poster":"Andrew Butcher","location":"Ashland, OH","url":"https://www.facebook.com/search/top?q=javelin%20c-17","searchTerm":"javelin c-17","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"jake-orton-j1kl-c17-nottingham","title":"Javelin Odyssey J1KL C-17 DOM 2007 - Nottingham","price":"£ 800","description":"Javelin Odyssey J1KL Size: C-17 harness DOM: 2007.","poster":"Jake Orton","location":"Nottingham, Nottinghamshire","url":"https://www.facebook.com/search/top?q=javelin%20J1KL","searchTerm":"javelin J1KL","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"james-brown-j1kl-evesham","title":"Complete rig - Javelin J1KL DOM Oct 2013 + PDR 143 + Sabre 2 150 - Evesham","price":"£ 3.400","description":"Javelin J1KL DOM Oct 2013. PDR 143 DOM Sep 2013 only 9 repacks. Sabre 2 150 DOM 2005 about 900 jumps. Vigil Cuatro DOM Oct 2013 (EOL Oct 2033).","poster":"James Brown","location":"Evesham, Worcestershire","url":"https://www.facebook.com/search/top?q=javelin%20J1KL","searchTerm":"javelin J1KL","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"marie-eve-daze-j2k-d19-montreal","title":"Javelin J2K DOM 05/2012 Size D-19 + PR 160 + Vigil - Montréal","price":"C$ 5.000","description":"Harness/Container: Sunpath J2K 712 jumps. DOM 05/2012. Size (yoke + MLW): D-19\".","poster":"Marie-Eve Dazé","location":"Montréal, QC","url":"https://www.facebook.com/search/top?q=javelin%20J2K","searchTerm":"javelin J2K","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"andrew-wheeler-j3k-verkocht","title":"(VERKOCHT) Sunpath Javelin Odyssey J3K - Peachtree City GA","price":"US$ 4.500","description":"Complete Sunpath Javelin Odyssey J3K. Main Canopy Range: 170-(190LPV). Pilot 188ZPX, PDR 160, Cypres2.","poster":"Andrew Wheeler","location":"Peachtree City, GA","url":"https://www.facebook.com/search/top?q=javelin%20J3K","searchTerm":"javelin J3K","foundAt":"2026-06-07T09:00:00.000Z"},{"id":"vic-mover-j3k-c19-ottawa","title":"Javelin J3K C19 DOM 2009 + Optima 176 + Vigil - Ottawa ON","price":"US$ 6.500","description":"Javelin J3K C19 (fits more like a C18.5) DOM 2009. 2010 Optima 176 Reserve. 2010 Vigil Cuattro (battery replaced).","poster":"Vic Mover","location":"Ottawa, ON","url":"https://www.facebook.com/search/top?q=javelin%20J3K","searchTerm":"javelin J3K","foundAt":"2026-06-07T09:00:00.000Z"}]};
+
+function fbTitleUrl(title) {
+  // Strip "(VERKOCHT)" prefix and use key title words for a targeted search
+  const clean = title.replace(/^\(VERKOCHT\)\s*/i, '').replace(/\s+-\s+.*$/, '').trim();
+  return 'https://www.facebook.com/search/top?q=' + encodeURIComponent(clean);
+}
+function fbSellerUrl(poster) {
+  return 'https://www.facebook.com/search/top?q=' + encodeURIComponent(poster + ' javelin');
+}
+function isSold(item) { return item.title.toLowerCase().includes('verkocht'); }
+function isD18(item) { return /(d|c)[-]?1[78]/i.test(item.title + ' ' + item.description); }
+function isNL(item) { return /nederland|, nl\b|, nb\b|, ge\b|, fr\b|tiel|breda|leeuwarden/i.test(item.location); }
+function isNew(item) { return !!item.isNew; }
+function parsePrice(p) {
+  if (!p) return Infinity;
+  const n = parseFloat(p.replace(/[^0-9.,]/g,'').replace(',','.'));
+  return isNaN(n) ? Infinity : n;
+}
+function fmtDate(iso) {
+  try { return new Date(iso).toLocaleDateString('nl-NL', {day:'numeric',month:'short',year:'numeric'}); }
+  catch(e) { return iso; }
+}
+
+function render() {
+  const q = document.getElementById('search').value.toLowerCase();
+  const status = document.getElementById('filterStatus').value;
+  const sort = document.getElementById('sortBy').value;
+  const d18 = document.getElementById('onlyD18').checked;
+  const nl = document.getElementById('onlyNL').checked;
+  const hideSold = document.getElementById('hideSold').checked;
+
+  let items = DATA.results.filter(item => {
+    const txt = [item.title, item.description, item.poster, item.location, item.searchTerm].join(' ').toLowerCase();
+    if (q && !txt.includes(q)) return false;
+    if (status === 'active' && isSold(item)) return false;
+    if (status === 'sold' && !isSold(item)) return false;
+    if (status === 'new' && !isNew(item)) return false;
+    if (d18 && !isD18(item)) return false;
+    if (nl && !isNL(item)) return false;
+    if (hideSold && isSold(item)) return false;
+    return true;
+  });
+
+  if (sort === 'price-asc') items.sort((a,b) => parsePrice(a.price) - parsePrice(b.price));
+  else if (sort === 'price-desc') items.sort((a,b) => parsePrice(b.price) - parsePrice(a.price));
+  else items.sort((a,b) => new Date(b.foundAt) - new Date(a.foundAt));
+
+  const active = items.filter(i => !isSold(i)).length;
+  const newCount = items.filter(i => isNew(i)).length;
+
+  document.getElementById('stats').innerHTML =
+    `<span>Weergegeven: <span class="stat-num">${items.length}</span></span>` +
+    `<span>✅ Beschikbaar: <span class="stat-num">${active}</span></span>` +
+    `<span>🔴 Verkocht: <span class="stat-num">${items.length - active}</span></span>` +
+    (newCount ? `<span>🆕 Nieuw vandaag: <span class="stat-num">${newCount}</span></span>` : '');
+
+  const grid = document.getElementById('grid');
+  if (!items.length) {
+    grid.innerHTML = '<div class="no-results">Geen advertenties gevonden voor deze filters.</div>';
+    return;
+  }
+
+  grid.innerHTML = items.map(item => {
+    const sold = isSold(item);
+    const d18f = isD18(item);
+    const nlf = isNL(item);
+    const newf = isNew(item);
+    const titleUrl = fbTitleUrl(item.title);
+    const sellerUrl = fbSellerUrl(item.poster);
+
+    const classes = ['card', sold ? 'sold' : '', (d18f && !sold) ? 'highlight' : '', newf ? 'is-new' : ''].filter(Boolean).join(' ');
+
+    const imgHtml = item.imageUrl ? `<img class="card-img" src="${item.imageUrl}" alt="${item.title}">` : '';
+
+    return `<div class="${classes}">
+      ${imgHtml}
+      <div class="card-top">
+        <div class="card-title">${item.title}</div>
+        <div class="badges">
+          ${newf ? '<span class="badge b-new">🆕 NIEUW</span>' : ''}
+          ${sold ? '<span class="badge b-sold">Verkocht</span>' : ''}
+          ${d18f && !sold ? '<span class="badge b-d18">🎯 D/C-18</span>' : ''}
+          ${nlf ? '<span class="badge b-nl">🇳🇱 NL</span>' : ''}
+          <span class="badge b-search">${item.searchTerm}</span>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="price">${item.price}</div>
+        <div class="meta-row"><span class="meta-icon">👤</span><span>${item.poster}</span></div>
+        <div class="meta-row"><span class="meta-icon">📍</span><span>${item.location}</span></div>
+        <div class="desc">${item.description.slice(0,250)}${item.description.length>250?'…':''}</div>
+      </div>
+      <div class="card-footer">
+        <span>${fmtDate(item.foundAt)}</span>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+          <a class="fb-link" href="${titleUrl}" target="_blank" title="Zoek de advertentietitel op Facebook">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Advertentie
+          </a>
+          <a class="fb-link" href="${sellerUrl}" target="_blank" title="Zoek de verkoper op Facebook" style="background:#42b72a">
+            👤 Verkoper
+          </a>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// Init
+document.getElementById('lastUpdated').textContent = 'Bijgewerkt: ' + fmtDate(DATA.lastUpdated);
+document.getElementById('totalCount').textContent = DATA.results.length + ' advertenties totaal';
+
+// Populate search terms
+const terms = [...new Set(DATA.results.map(r => r.searchTerm))].sort();
+document.getElementById('termsList').innerHTML = terms.map(t =>
+  `<span class="term">🔍 ${t}</span>`
+).join('');
+
+render();
+</script>
+</body>
+</html>
