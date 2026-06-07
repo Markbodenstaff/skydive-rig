@@ -58,6 +58,18 @@
   .b-nl     { background: #e8f5e9; color: #2e7d32; }
   .b-search { background: #e3f2fd; color: #1565c0; }
   .b-direct { background: #f3e5f5; color: #6a1b9a; }
+  .b-size   { background: #fff8e1; color: #f57f17; font-family: monospace; }
+
+  details.size-guide { background: #f8f9fa; border-bottom: 1px solid #e4e6ea; font-size: 13px; }
+  details.size-guide summary { padding: 10px 24px; cursor: pointer; list-style: none; display: flex; align-items: center; gap: 8px; font-weight: 600; color: #1c1e21; user-select: none; }
+  details.size-guide summary::after { content: '▼'; font-size: 10px; margin-left: auto; transition: transform 0.2s; }
+  details.size-guide[open] summary::after { transform: rotate(180deg); }
+  .size-guide-body { padding: 14px 24px 18px; display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+  .size-table { border-collapse: collapse; width: 100%; font-size: 12px; }
+  .size-table th { background: #f0f2f5; padding: 6px 10px; text-align: left; font-weight: 600; border: 1px solid #d0d7de; }
+  .size-table td { padding: 5px 10px; border: 1px solid #e4e6ea; }
+  .size-table tr.highlight-row td { background: #fff3e0; font-weight: 600; }
+  .size-guide-title { font-weight: 700; font-size: 14px; margin-bottom: 8px; color: #1c1e21; }
 
   .card-body { padding: 12px 16px; }
   .price { font-size: 14px; font-weight: 600; color: #65676b; margin-bottom: 8px; }
@@ -102,6 +114,40 @@
   <div class="terms-grid" id="termsList"></div>
 </details>
 
+<details class="size-guide">
+  <summary>📐 Maatgids — Javelin & Vector (voor 1,80 m)</summary>
+  <div class="size-guide-body">
+    <div>
+      <div class="size-guide-title">🟦 Sun Path Javelin — Harnasmaten</div>
+      <table class="size-table">
+        <thead><tr><th>Maat</th><th>Yoke</th><th>MLW</th><th>Past bij</th></tr></thead>
+        <tbody>
+          <tr><td>B-17</td><td>B (smal)</td><td>17"</td><td>Vrouw ~1,70–1,75 m</td></tr>
+          <tr><td>C-17</td><td>C (gem.)</td><td>17"</td><td>Man ~1,73–1,78 m, slank</td></tr>
+          <tr><td>C-18</td><td>C (gem.)</td><td>18"</td><td>Man ~1,78–1,83 m, smal schouder</td></tr>
+          <tr class="highlight-row"><td>D-18</td><td>D (breed)</td><td>18"</td><td>Man ~1,78–1,85 m ✅ jouw maat</td></tr>
+          <tr><td>D-19</td><td>D (breed)</td><td>19"</td><td>Man ~1,83–1,90 m, lang torso</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:#65676b;margin-top:6px">Tolerantie: ±1 op MLW en yoke is prima. Yoke D = brede schouders; C = gemiddeld.</p>
+    </div>
+    <div>
+      <div class="size-guide-title">🟥 UPT Vector — Containermodel voor hoofddoek 150–190</div>
+      <table class="size-table">
+        <thead><tr><th>Model</th><th>Standaard</th><th>Vol (passen)</th><th>Reserve</th></tr></thead>
+        <tbody>
+          <tr><td>V308 Micron</td><td>t/m 150</td><td>t/m 170</td><td>t/m 135</td></tr>
+          <tr class="highlight-row"><td>V309 Micron</td><td>t/m 170</td><td>190 mogelijk ✅</td><td>t/m 143</td></tr>
+          <tr class="highlight-row"><td>V310 Micron</td><td>t/m 170</td><td>190 mogelijk ✅</td><td>t/m 160</td></tr>
+          <tr><td>V348</td><td>t/m 170</td><td>190 mogelijk ✅</td><td>t/m 168</td></tr>
+          <tr><td>V349</td><td>t/m 170</td><td>190 mogelijk ✅</td><td>t/m 188</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:11px;color:#65676b;margin-top:6px">V309/V310 zijn Micron (compacter profiel). V348/349 zijn standaard grootte. Harnasmaat voor Vector: MLW ≈ 18–18.5", yoke +1/+2.</p>
+    </div>
+  </div>
+</details>
+
 <div class="controls">
   <input type="text" id="search" placeholder="🔍  Zoek op naam, maat, locatie..." oninput="render()">
   <select id="filterStatus" onchange="render()">
@@ -115,7 +161,14 @@
     <option value="price-asc">Prijs ↑</option>
     <option value="price-desc">Prijs ↓</option>
   </select>
-  <label><input type="checkbox" id="onlyD18" onchange="render()"> Alleen D/C-18</label>
+  <select id="filterSize" onchange="render()">
+    <option value="all">Alle maten</option>
+    <option value="B-17">B-17</option>
+    <option value="C-17">C-17</option>
+    <option value="C-18">C-18</option>
+    <option value="D-18">D-18 ✅</option>
+    <option value="D-19">D-19</option>
+  </select>
   <label><input type="checkbox" id="onlyNL" onchange="render()"> Alleen NL</label>
   <label><input type="checkbox" id="hideSold" onchange="render()"> Verberg verkocht</label>
 </div>
@@ -136,6 +189,11 @@ function isSold(item) { return item.title.toLowerCase().includes('verkocht'); }
 function isD18(item) { return /(d|c)[-]?1[78]/i.test(item.title + ' ' + item.description); }
 function isNL(item) { return /nederland|, nl\b|, nb\b|, ge\b|, fr\b|tiel|breda|leeuwarden/i.test(item.location); }
 function isNew(item) { return !!item.isNew; }
+function extractSize(item) {
+  const txt = item.title + ' ' + (item.description || '');
+  const m = txt.match(/\b([A-E])[-_]?(1[4-9])\b/i);
+  return m ? m[1].toUpperCase() + '-' + m[2] : null;
+}
 function parsePrice(p) {
   if (!p) return Infinity;
   const n = parseFloat(p.replace(/[^0-9.,]/g,'').replace(',','.'));
@@ -150,7 +208,7 @@ function render() {
   const q = document.getElementById('search').value.toLowerCase();
   const status = document.getElementById('filterStatus').value;
   const sort = document.getElementById('sortBy').value;
-  const d18 = document.getElementById('onlyD18').checked;
+  const sizeFilter = document.getElementById('filterSize').value;
   const nl = document.getElementById('onlyNL').checked;
   const hideSold = document.getElementById('hideSold').checked;
 
@@ -160,7 +218,7 @@ function render() {
     if (status === 'active' && isSold(item)) return false;
     if (status === 'sold' && !isSold(item)) return false;
     if (status === 'new' && !isNew(item)) return false;
-    if (d18 && !isD18(item)) return false;
+    if (sizeFilter !== 'all' && extractSize(item) !== sizeFilter) return false;
     if (nl && !isNL(item)) return false;
     if (hideSold && isSold(item)) return false;
     return true;
@@ -192,6 +250,7 @@ function render() {
     const newf = isNew(item);
     const direct = isDirectUrl(item.url);
     const adUrl = getAdUrl(item);
+    const harnessSize = extractSize(item);
 
     const classes = ['card', sold ? 'sold' : '', (d18f && !sold) ? 'highlight' : '', newf ? 'is-new' : ''].filter(Boolean).join(' ');
     const imgHtml = item.imageUrl ? `<img class="card-img" src="${item.imageUrl}" alt="${item.title}">` : '';
@@ -203,7 +262,7 @@ function render() {
         <div class="badges">
           ${newf ? '<span class="badge b-new">🆕 NIEUW</span>' : ''}
           ${sold ? '<span class="badge b-sold">Verkocht</span>' : ''}
-          ${d18f && !sold ? '<span class="badge b-d18">🎯 D/C-18</span>' : ''}
+          ${harnessSize ? `<span class="badge b-size">${harnessSize}</span>` : ''}
           ${nlf ? '<span class="badge b-nl">🇳🇱 NL</span>' : ''}
           ${direct ? '<span class="badge b-direct">🔗 Direct</span>' : ''}
           <span class="badge b-search">${item.searchTerm}</span>
